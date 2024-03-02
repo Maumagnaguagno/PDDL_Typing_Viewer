@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang=en-us>
+<head>
+  <meta charset=utf-8>
+  <meta name=description content="Graph visualization of PDDL Typing.">
+  <title>PDDL_Typing</title>
+</head>
+<body>
+<header style=position:fixed;font-family:Arial,sans-serif>
+<h1 style=margin:0>PDDL Typing</h1>
+<button style=position:absolute;right:0 onclick=render()>Generate</button>
+<textarea id=input rows=12 cols=40 style=white-space:pre>
+site material - object
+bricks cables windows - material
+?s1 - site ?s2 - site ?m - material
+</textarea>
+<button style=display:block;width:50%;position:absolute onclick=download('types.dot',dot)>Download DOT</button>
+<button style=display:block;width:50%;position:absolute;right:0 onclick=download('types.svg',document.getElementById('graph').innerHTML)>Download SVG</button>
+<p style=position:fixed;bottom:0;background:#fffc>See this project on <a href=https://github.com/maumagnaguagno/PDDL_Typing>GitHub</a><br>Made by <a href=https://github.com/maumagnaguagno>Mau Magnaguagno</a></p>
+</header>
+<div id=graph></div>
+<script src=https://d3js.org/d3.v6.min.js></script>
+<script src=https://unpkg.com/@hpcc-js/wasm@1.4.1/dist/index.min.js type=javascript/worker></script>
+<script src=https://unpkg.com/d3-graphviz@4.0.0/build/d3-graphviz.min.js></script>
+<script>
+var dot, graphviz = d3.select("#graph").graphviz({width: window.innerWidth - 20, height: window.innerHeight - 20, fit: true}).on("initEnd", render);
+function render() {
+  var i, group = document.getElementById("input").value.trim().split(/\s+/);
+  dot = "digraph type {\n";
+  while((i = group.indexOf("-")) != -1)
+  {
+    dot += '  "' + group[i + 1] + '" -> {"' + group.splice(0, i).join('" "') + '"}\n';
+    group.splice(0, 2);
+  }
+  if(group.length) dot += '  "' + group.join('" "') + '"\n';
+  graphviz.renderDot(dot += "}");
+}
+function download(filename, text) {
+  var element = document.createElement("a");
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+  element.setAttribute("download", filename);
+  element.style.display = "none";
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
+window.onresize = function() { d3.select("#graph").selectWithoutDataPropagation("svg").attr("width", window.innerWidth - 20).attr("height", window.innerHeight - 20); };
+</script>
+</body>
+</html>
