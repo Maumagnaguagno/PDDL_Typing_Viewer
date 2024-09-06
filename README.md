@@ -1,4 +1,4 @@
-# PDDL Typing
+# PDDL Typing Viewer
 **Graph visualization of PDDL Typing**
 
 Convert a PDDL Typing description into a [DOT](https://www.graphviz.org/doc/info/lang.html) graph to be client-rendered using [d3-graphviz](https://github.com/magjac/d3-graphviz).

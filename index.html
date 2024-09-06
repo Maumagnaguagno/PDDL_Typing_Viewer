@@ -3,11 +3,11 @@
 <head>
   <meta charset=utf-8>
   <meta name=description content="Graph visualization of PDDL Typing.">
-  <title>PDDL Typing</title>
+  <title>PDDL Typing Viewer</title>
 </head>
 <body>
 <header style=position:fixed;font-family:Arial,sans-serif>
-<h1 style=margin:0>PDDL Typing</h1>
+<h1 style=margin:0>PDDL Typing Viewer</h1>
 <button style=position:absolute;right:0 onclick=render()>Generate</button>
 <textarea id=input rows=12 cols=40 style=white-space:pre>
 site material - object
@@ -16,7 +16,7 @@ s1 - site s2 - site m - material
 </textarea>
 <button style=display:block;width:50%;position:absolute onclick=download('types.dot',dot)>Download DOT</button>
 <button style=display:block;width:50%;position:absolute;right:0 onclick=download('types.svg',document.getElementById('graph').innerHTML)>Download SVG</button>
-<p style=position:fixed;bottom:0;background:#fffc>See this project on <a href=https://github.com/maumagnaguagno/PDDL_Typing>GitHub</a><br>Made by <a href=https://github.com/maumagnaguagno>Mau Magnaguagno</a></p>
+<p style=position:fixed;bottom:0;background:#fffc>See this project on <a href=https://github.com/maumagnaguagno/PDDL_Typing_Viewer>GitHub</a><br>Made by <a href=https://github.com/maumagnaguagno>Mau Magnaguagno</a></p>
 </header>
 <div id=graph></div>
 <script src=https://d3js.org/d3.v6.min.js></script>
