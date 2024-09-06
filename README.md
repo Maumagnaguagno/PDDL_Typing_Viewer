@@ -7,4 +7,10 @@ They are useful to obtain compact and readable descriptions, but may become comp
 They follow the form ``child1 child2 - parent orphan``, where elements before the hyphen are childs of the ``parent`` after the hyphen.
 Orphan elements may be considered childs of supertype ``object`` or explicitly require the description, implementation dependent.
 
+Instead of typing or pasting your types, the URL can contain the description:
+
+```
+https://maumagnaguagno.github.io/PDDL_Typing_Viewer?types=red%20blue%20-%20color
+```
+
 For similar planning visualization projects, see [Classical Plan Viewer](../../../Classical_Plan_Viewer) and [HTN Plan Viewer](../../../HTN_Plan_Viewer).

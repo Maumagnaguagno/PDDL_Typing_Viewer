@@ -9,7 +9,7 @@
 <header style=position:fixed;font-family:Arial,sans-serif>
 <h1 style=margin:0>PDDL Typing Viewer</h1>
 <button style=position:absolute;right:0 onclick=render()>Generate</button>
-<textarea id=input rows=12 cols=40 style=white-space:pre>
+<textarea id=input rows=12 cols=45 style=white-space:pre>
 site material - object
 bricks cables windows - material
 s1 - site s2 - site m - material
@@ -23,9 +23,11 @@ s1 - site s2 - site m - material
 <script src=https://unpkg.com/@hpcc-js/wasm@1.4.1/dist/index.min.js type=javascript/worker></script>
 <script src=https://unpkg.com/d3-graphviz@4.0.0/build/d3-graphviz.min.js></script>
 <script>
+const types = new URLSearchParams(window.location.search).get("types"), input = document.getElementById("input");
+if(types) input.value = types;
 var dot, graphviz = d3.select("#graph").graphviz({width: window.innerWidth - 20, height: window.innerHeight - 20, fit: true}).on("initEnd", render);
 function render() {
-  var i, group = document.getElementById("input").value.trim().split(/\s+/);
+  var i, group = input.value.trim().split(/\s+/);
   dot = "digraph type {\n";
   while((i = group.indexOf("-")) != -1)
   {
@@ -34,6 +36,7 @@ function render() {
   }
   if(group.length) dot += '  "' + group.join('" "') + '"\n';
   graphviz.renderDot(dot += "}");
+  window.history.pushState({}, "", "?types=" + encodeURIComponent(input.value));
 }
 function download(filename, text) {
   var element = document.createElement("a");
