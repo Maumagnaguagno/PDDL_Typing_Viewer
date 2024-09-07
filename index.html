@@ -27,14 +27,21 @@ var dot, graphviz = d3.select("#graph").graphviz({width: window.innerWidth - 20,
 const types = new URLSearchParams(window.location.search).get("types"), input = document.getElementById("input");
 if(types) input.value = types;
 function render() {
-  var i, j, group = input.value.match(/[()]|[^\s()]+/g);
+  var i, j, group = input.value.match(/[()]|[^\s()]+/g), warnings = "";
   dot = "digraph type {\n";
   while((i = group.indexOf("-")) !== -1)
   {
+    if(i === 0) warnings += "Missing subtype\n";
+    if(i + 1 === group.length) warnings += "Missing supertype\n";
     if(group[i + 1] !== "(") dot += '  "' + group[i + 1] + '"';
     else
     {
-      if((j = group.indexOf(")", i + 3)) === -1) j = group.length;
+      if(group[i + 2] !== "either") warnings += "Expected either instead of " + group[i + 2] + "\n";
+      if((j = group.indexOf(")", i + 3)) === -1)
+      {
+        j = group.length;
+        warnings += "Missing close parenthesis\n";
+      }
       dot += '{"' + group.splice(i + 3, j - i - 3).join('" "') + '"}';
       group.splice(i + 2, 2);
     }
@@ -43,6 +50,7 @@ function render() {
   }
   if(group.length) dot += '  "' + group.join('" "') + '"\n';
   graphviz.renderDot(dot += "}");
+  if(warnings) alert(warnings);
   window.history.pushState({}, "", "?types=" + encodeURIComponent(input.value));
 }
 function download(filename, text) {
