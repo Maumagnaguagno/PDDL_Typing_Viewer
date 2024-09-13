@@ -36,14 +36,14 @@ function render() {
     if(group[i + 1] !== "(") dot += '  "' + group[i + 1] + '"';
     else
     {
-      if(group[i + 2] !== "either") warnings += "Expected either instead of " + group[i + 2] + "\n";
-      if((j = group.indexOf(")", i + 3)) === -1)
+      group.splice(i, 2);
+      if(group[i] !== "either") warnings += "Expected either instead of " + group[i] + "\n";
+      if((j = group.indexOf(")", i + 1)) === -1)
       {
         j = group.length;
         warnings += "Missing close parenthesis\n";
       }
-      dot += '{"' + group.splice(i + 3, j - i - 3).join('" "') + '"}';
-      group.splice(i + 2, 2);
+      dot += '{"' + group.splice(i + 1, j - i - 1).join('" "') + '"}';
     }
     dot += ' -> {"' + group.splice(0, i).join('" "') + '"}\n';
     group.splice(0, 2);
